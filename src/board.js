@@ -3,15 +3,18 @@ import "./dom.js";
 //CREATES GAMEBOARDS
 const BOARD_CREATOR = () => {
 	let arr = [];
+	let verNumItr = 0; //used to pair td with board objects
 	for (let i = 0; i < 10; i++) {
 		arr.push([]);
 		for (let j = 0; j < 10; j++) {
 			arr[i].push({
+				shipThere: false,
 				isFilled: false,
-				isDestroyed: false,
 				Xcoordinate: j,
 				Ycoordinate: i,
+				verboseNum: verNumItr,
 			});
+			verNumItr += 1;
 		}
 	}
 	return arr;
@@ -51,7 +54,7 @@ const SHIP_PLACEMENT = (callback) => {
 									xCord <= board[i - 1][j + 1].Xcoordinate;
 									xCord++
 								) {
-									if (board[yCord][xCord].isFilled == true) {
+									if (board[yCord][xCord].shipThere == true) {
 										shipThere = true;
 										break;
 									}
@@ -80,7 +83,7 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
-					board[i + l][j].isFilled = true;
+					board[i + l][j].shipThere = true;
 				}
 				break;
 			} else if (directionNum >= 5) {
@@ -98,7 +101,7 @@ const SHIP_PLACEMENT = (callback) => {
 									xCord <= board[i - 1][j + 1].Xcoordinate;
 									xCord++
 								) {
-									if (board[yCord][xCord].isFilled == true) {
+									if (board[yCord][xCord].shipThere == true) {
 										shipThere = true;
 										break;
 									}
@@ -127,7 +130,7 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
-					board[i][j - l].isFilled = true;
+					board[i][j - l].shipThere = true;
 				}
 				break;
 			}
@@ -136,6 +139,6 @@ const SHIP_PLACEMENT = (callback) => {
 	return board;
 };
 
-SHIP_PLACEMENT(BOARD_CREATOR);
+//call above function when you hit start
 
 export { SHIP_PLACEMENT, BOARD_CREATOR };

@@ -1,5 +1,6 @@
-import "./board.js";
+/* eslint-disable no-undef */
 import { SHIP_PLACEMENT, BOARD_CREATOR } from "./board.js";
+import { playerStats } from "./player.js";
 
 test("must return an array", () => {
 	expect(BOARD_CREATOR()).not.toContain(undefined);
@@ -25,4 +26,8 @@ const mockShipRandomizer = jest.fn(() => []);
 
 test("create a test run of the board randomizer function", () => {
 	expect(SHIP_PLACEMENT(mockShipRandomizer)).toEqual("test passed");
+});
+
+test("check to see if a number is returned", () => {
+	expect(new playerStats(5).amount).toEqual(5);
 });
