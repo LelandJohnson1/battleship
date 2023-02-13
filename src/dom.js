@@ -9,35 +9,30 @@ const RESET = (pass) => {
 	console.log("reset");
 };
 
+//converts values from the coordinate selector function to proper game board index values i.e. A becomes 0
 const VALUE_CONVERTER = (value1, value2, value3) => {
-	const Letters = [
-		{ A: 0 },
-		{ B: 1 },
-		{ C: 2 },
-		{ D: 3 },
-		{ E: 4 },
-		{ F: 5 },
-		{ G: 6 },
-		{ H: 7 },
-		{ I: 8 },
-	];
+	//above values are coordinate box values
+	const Letters = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8 };
 
+	//this ideally creates a new array of converted values
 	let mutatedArr = [value1, value2, value3].map(function (val) {
 		if (typeof val == "string") {
-			allCaps = val.toUpperCase();
-			let { allCaps } = Letters;
-			//if range is beyond the scope of letters break
-			return allCaps;
+			let allCaps = val.toUpperCase();
+			let { ltrMatch = allCaps } = Letters; //matches letter with above object
+			//-will return undefined if letter is not found
+			return Letters[ltrMatch];
 		} else if (typeof val == "number" && val != 0) {
 			//don't let user put in 0
 			return val - 1;
 		} else {
+			// for any other string  value
 			return undefined;
 		}
 	});
 
 	if (
 		mutatedArr.every(function (val) {
+			//checks to see if every value in the array is a number
 			return typeof val == "number";
 		}) == false
 	) {
