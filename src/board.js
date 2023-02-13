@@ -9,10 +9,10 @@ const BOARD_CREATOR = () => {
 		for (let j = 0; j < 10; j++) {
 			arr[i].push({
 				shipThere: false,
-				isFilled: false,
+				isFilled: false, //has the space been selected?
 				Xcoordinate: j,
 				Ycoordinate: i,
-				verboseNum: verNumItr,
+				verboseNum: verNumItr, //assoc.this value with the td index in the dom
 			});
 			verNumItr += 1;
 		}
@@ -23,7 +23,7 @@ const BOARD_CREATOR = () => {
 //RANDOMIZES SHIP PLACEMENT
 const SHIP_PLACEMENT = (callback) => {
 	let board = callback();
-	let shipAmounts = [4, 3, 3, 2, 1, 1];
+	let shipAmounts = [1, 1, 2, 3, 3, 4];
 
 	for (let k = 0; k < shipAmounts.length; k++) {
 		//for jest testing
@@ -83,6 +83,7 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
+					board[i + l][j].data_location = l + 1; //used to connect boats on board to boats on display board
 					board[i + l][j].shipThere = true;
 				}
 				break;
@@ -130,6 +131,7 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
+					board[i][j - l].data_location = l + 1; //used to connect boats on board to boats on display board
 					board[i][j - l].shipThere = true;
 				}
 				break;

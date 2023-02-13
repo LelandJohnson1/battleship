@@ -12,8 +12,6 @@ header{
 main{
     background-color: grey;
     box-sizing: border-box;
-    padding-left: 25%;
-    padding-right: 25%;
     
 }
 
@@ -48,7 +46,7 @@ td {
 
 }
 
-.display_block{
+.display_block,.com_display_block{
     background-color:blue; 
     width:10%; 
     height: 2rem;
