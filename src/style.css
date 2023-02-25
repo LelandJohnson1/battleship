@@ -15,9 +15,11 @@ main{
     
 }
 
-.board_container{
+.board_container_user, .board_container_comp{
     display: inline-block;
     }
+
+
 
 table{
     display: inline-block;
@@ -69,5 +71,7 @@ input[type="text"] {
 width:2rem;
 display: inline-block;
 }
+
+.start_button{display: none;}
  
 footer{background-color: green;}

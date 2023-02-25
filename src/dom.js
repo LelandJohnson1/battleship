@@ -1,29 +1,76 @@
 import { SHIP_PLACEMENT, BOARD_CREATOR } from "./board.js";
 
-const RESET = (pass) => {
+const RESET = () => {
 	// reset text back to start text
-	//reset computer board dom and player board dom
-	//reset user and computer object info (this auto... happens when placemnt and start button is hit)
+	//reset user and computer object info (this auto... happens when placement and start button is hit)
 	//lock comp board
 	//reset coord box values and colors
-	console.log("reset");
+	const COORD_BOXES = Array.from(document.querySelectorAll(".coord_box"));
+
+	const COM_DISPLAY_BLOCKS = Array.from(
+		document.querySelectorAll(".com_display_block")
+	);
+
+	const USER_DISPLAY_BLOCKS = Array.from(
+		document.querySelectorAll(".display_block")
+	);
+
+	COORD_BOXES.forEach(function (val) {
+		val.style.display = "block";
+		val.innerHTML = "";
+	});
+
+	COM_DISPLAY_BLOCKS.forEach(function (val) {
+		val.style["background-color"] = "blue";
+	});
+
+	USER_DISPLAY_BLOCKS.forEach(function (val) {
+		val.style["background-color"] = "blue";
+	});
+
+	//reset computer board dom and player board dom
+	const userBoard = Array.from(
+		document.querySelectorAll(".board_container_user td")
+	);
+	const compBoard = Array.from(
+		document.querySelectorAll(".board_container_comp td")
+	);
+
+	userBoard.forEach(function (val) {
+		val.style["background-color"] = "blue";
+		val.innerHTML = "";
+	});
+	compBoard.forEach(function (val) {
+		val.style["background-color"] = "blue";
+		val.innerHTML = "";
+	});
 };
 
 //converts values from the coordinate selector function to proper game board index values i.e. A becomes 0
 const VALUE_CONVERTER = (value1, value2, value3) => {
 	//above values are coordinate box values
-	const Letters = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8 };
+	const Letters = {
+		A: 0,
+		B: 1,
+		C: 2,
+		D: 3,
+		E: 4,
+		F: 5,
+		G: 6,
+		H: 7,
+		I: 8,
+		J: 9,
+	};
 
 	//this ideally creates a new array of converted values
 	let mutatedArr = [value1, value2, value3].map(function (val) {
-		if (typeof val == "string") {
+		if (typeof val == "string" && val != "") {
 			let allCaps = val.toUpperCase();
 			let { ltrMatch = allCaps } = Letters; //matches letter with above object
 			//-will return undefined if letter is not found
 			return Letters[ltrMatch];
-		} else if (typeof val == "number" && val != 0) {
-			//don't let user put in 0
-			return val - 1;
+		} else if (typeof val == "number") {
+			return val;
 		} else {
 			// for any other string  value
 			return undefined;
@@ -42,78 +89,86 @@ const VALUE_CONVERTER = (value1, value2, value3) => {
 	}
 };
 
+//Actually places ships on board and properly colors them
+const PLACE_SHIPS = (ship, m, l) => {
+	const tblData = Array.from(
+		document.querySelectorAll(".board_container_user td")
+	);
+	//check to see if a ship is already in slot, if so break (stops user from placing piece in same slot)
+	if (ship.shipThere == true) {
+		RESET(); //Gets rid of prev filled td
+		return true;
+	}
+
+	while (m < 120) {
+		//loop until correct td is found and fill it (ship is placed here) -m represents the td index
+		if (m == ship.verboseNum) {
+			tblData[m].style["background-color"] = "green";
+			break;
+		}
+		m++;
+	}
+
+	//create custom key that associates dom data-keys with placed boat on board (for color changes on display)
+	ship.data_location = l;
+	// place vertical
+	ship.shipThere = true;
+};
+
+//makes sure ships are placed the proper amount of times and associates display tray ships with board ships
 const USER_PLACEMENT_LOGIC = (
-	gameboardArr,
+	gameboardArr, //user gameboard
 	convertedValuesArr,
-	firstboxVal,
+	firstboxVal, //determines the direction of ship placement
 	iter,
-	coordboxesArr
+	coordboxesArr //determines the direction of ship placement
 ) => {
 	let invalid_Amount = false;
-	let j = 1; //breaks loop if index to ad from number does not match the number of avali ships
-	let l = 1; //controls data-location key placement
+	let j = 1; //breaks loop if index to and from number does not match the number of avali ships
 	let m = 0; //controls dom block color change
-	const tblData = Array.from(document.querySelectorAll("td"));
+	let l = 1; //controls data-location key placement
 
-	//run loop first but dont place pieces if loop goes over a certain amount of times break
+	//run loop first, don't place pieces, if loop goes over a certain amount of times break
 	for (let i = convertedValuesArr[1]; i <= convertedValuesArr[2]; i++) {
-		if (j > iter) {
+		//if user puts in a less than valid range
+		if (i == convertedValuesArr[2] && iter > j) {
+			invalid_Amount = true;
+			break;
+		} else if (j > iter) {
 			invalid_Amount = true;
 			break;
 		}
+
 		j += 1;
 	}
+
 	if (invalid_Amount == true) {
 		return true;
 	}
 
-	//else go back and place pieces // SET BOARD TO PROPER FILLED COLORS
+	//Place ships and SET BOARD TO PROPER FILLED COLORS
 	for (let k = convertedValuesArr[1]; k <= convertedValuesArr[2]; k++) {
-		//go horizontal or vertical
-		if (typeof coordboxesArr[firstboxVal].value == "string") {
-			//check to see if a ship is already in slot, if so break
-			if (gameboardArr[k][convertedValuesArr[0]].shipThere == true) {
+		//place vertical
+		if (coordboxesArr[firstboxVal].value == "string") {
+			let placementHolder = PLACE_SHIPS(
+				gameboardArr[k][convertedValuesArr[0]],
+				m,
+				l
+			);
+			if (placementHolder == true) {
 				return true;
-				//CALL RESET function with condition
 			}
-			// eslint-disable-next-line no-constant-condition
-			while (false) {
-				if (
-					tblData[m].verboseNum ==
-					gameboardArr[k][convertedValuesArr[0]].verboseNum
-				) {
-					tblData[m].style["background-color"] = "green";
-					break;
-				}
-				m++;
-			}
-
-			//create custom key that associates dom data-keys with placed boat
-			gameboardArr[k][convertedValuesArr[0]].data_location = l;
-			//vertical
-			gameboardArr[k][convertedValuesArr[0]].shipThere = true;
 			l++;
 		} else {
-			//check to see if a ship is already in slot, if so break
-			if (gameboardArr[convertedValuesArr[0]][k].shipThere == true) {
+			//place horizontal
+			let placementHolder = PLACE_SHIPS(
+				gameboardArr[convertedValuesArr[0]][k],
+				m,
+				l
+			);
+			if (placementHolder == true) {
 				return true;
-				//CALL RESET function with condition-this will clean up the boards values
 			}
-
-			while (false) {
-				if (
-					tblData[m].verboseNum ==
-					gameboardArr[convertedValuesArr[0]][k].verboseNum
-				) {
-					tblData[m].style["background-color"] = "green";
-					break;
-				}
-				m++;
-			}
-			//create custom key that associates dom data-keys with placed boat
-			gameboardArr[convertedValuesArr[0]][k].data_location = l;
-			//horizontal
-			gameboardArr[convertedValuesArr[0]][k].shipThere = true;
 			l++;
 		}
 	}
@@ -122,6 +177,9 @@ const USER_PLACEMENT_LOGIC = (
 //TAKES IN VALUES FROM THE USER SHIP PLACEMENT BOARD, CONVERTS THEM TO USEABLE VALUES,
 //AND PLACES THEM ON THE GAME BOARD
 const COORDINATE_SELECTOR = () => {
+	//make start button appear
+	const START_BUTTON = document.querySelector(".start_button");
+	START_BUTTON.style.display = "block";
 	RESET(); //clean values at start
 	const COORD_BOXES = Array.from(document.querySelectorAll(".coord_box"));
 	const USERBOARD = BOARD_CREATOR(); //put this into computer choice func //this resets all values
@@ -171,11 +229,15 @@ const COORDINATE_SELECTOR = () => {
 	}
 };
 
-//will unlock gameboard among other things
-//user must have placed pieces or error will show
+//makes computer board clickable
 const START_FUNCTION = () => {
-	//make computer board clickable
 	// get rid of inputs and place button for user display board
+	const COORD_BOXES = Array.from(document.querySelectorAll(".coord_box"));
+
+	COORD_BOXES.forEach(function (val) {
+		val.style.display = "none";
+	});
+
 	return SHIP_PLACEMENT(BOARD_CREATOR);
 };
 
