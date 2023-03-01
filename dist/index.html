@@ -7,14 +7,65 @@
     <title>Document</title>
 </head>
 <body> 
-<header>
-    <p>Battleship</p> 
-    <p>Your Turn</p>
-</header>
 <main>
+
+    <header>
+        <p>Battleship</p> 
+        <p>Place your ships then press start</p>
+    </header>
+    <button class="start_button">Start</button>
+    <button id="placementButton">PLACE</button>
     <div class="board_container_user">
+        <div class="ship_select_container"><div class="placementBoard">
+                <div class="display_block" data-location="1"></div>
+                <input type="text" maxlength="1" class="coord_box" value="A"></input>
+                <input type="text" maxlength="1" class="coord_box" value=0></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value=0></input>
+            </div><div class="placementBoard">
+                <div class="display_block" data-location="2"></div>
+                <input type="text" maxlength="1" class="coord_box" value="C"></input>
+                <input type="text" maxlength="1" class="coord_box" value=0></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value=0></input>
+            </div><div class="placementBoard">
+                <div class="display_block" data-location="3"></div>
+                <div class="display_block" data-location="4"></div>
+                <input type="text" maxlength="1" class="coord_box" value=5></input>
+                <input type="text" maxlength="1" class="coord_box" value="A"></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value="B"></input>
+            </div><div class="placementBoard">
+                <div class="display_block" data-location="5"></div>
+                <div class="display_block" data-location="6"></div>
+                <div class="display_block" data-location="7"></div>
+                <input type="text" maxlength="1" class="coord_box" value=7></input>
+                <input type="text" maxlength="1" class="coord_box" value=D></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value=F></input>
+            </div><div class="placementBoard">
+                <div class="display_block" data-location="8"></div>
+                <div class="display_block" data-location="9"></div>
+                <div class="display_block" data-location="10"></div>
+                <input type="text" maxlength="1" class="coord_box" value=8></input>
+                <input type="text" maxlength="1" class="coord_box" value="E"></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value="G"></input>
+            </div><div class="placementBoard">
+                <div class="display_block" data-location="11"></div>
+                <div class="display_block" data-location="12"></div>
+                <div class="display_block" data-location="13"></div>
+                <div class="display_block" data-location="14"></div>
+                <input type="text" maxlength="1" class="coord_box" value="I"></input>
+                <input type="text" maxlength="1" class="coord_box" value=0></input>
+                <p>to</p>
+                <input type="text" maxlength="1" class="coord_box" value=3></input>
+            </div>
+        </div>
     <table>
-        <tr><th>A</th>
+        <tr>
+            <th></th>
+            <th>A</th>
             <th>B</th>
             <th>C</th>
             <th>D</th>
@@ -156,239 +207,183 @@
             <td></td>
         </tr>
     </table>
-<div class="ship_select_container">
-    <div class="placementBoard">
-        <div class="display_block" data-location="1"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-    <div class="placementBoard">
-        <div class="display_block" data-location="2"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-    <div class="placementBoard">
-        <div class="display_block" data-location="3"></div>
-        <div class="display_block" data-location="4"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-    <div class="placementBoard">
-        <div class="display_block" data-location="5"></div>
-        <div class="display_block" data-location="6"></div>
-        <div class="display_block" data-location="7"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-    <div class="placementBoard">
-        <div class="display_block" data-location="8"></div>
-        <div class="display_block" data-location="9"></div>
-        <div class="display_block" data-location="10"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-    <div class="placementBoard">
-        <div class="display_block" data-location="11"></div>
-        <div class="display_block" data-location="12"></div>
-        <div class="display_block" data-location="13"></div>
-        <div class="display_block" data-location="14"></div>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <input type="text" maxlength="1" class="coord_box"></input>
-        <p>to</p>
-        <input type="text" maxlength="1" class="coord_box"></input>
-    </div>
-</div>
-<button id="placementButton">PLACE</button>
-</div>
-
-
-
-<div class="board_container_comp">
-    <table>
-        <tr><th>A</th>
-            <th>B</th>
-            <th>C</th>
-            <th>D</th>
-            <th>E</th>
-            <th>F</th>
-            <th>G</th>
-            <th>H</th>
-            <th>I</th>
-            <th>J</th>
-        </tr>
-        <tr>
-            <th>0</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>1</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>2</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>3</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>4</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>5</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>6</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>7</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>8</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>9</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+</div><div class="board_container_comp">
     <div class="ship_select_container">
         <div class="placementBoard">
-            <div class="com_display_block" data-location="1"></div>
+            <div class="com_display_block" data_location="1"></div>
         </div>
         <div class="placementBoard">
-            <div class="com_display_block" data-location="2"></div>
+            <div class="com_display_block" data_location="2"></div>
         </div>
         <div class="placementBoard">
-            <div class="com_display_block" data-location="3"></div>
-            <div class="com_display_block" data-location="4"></div>
+            <div class="com_display_block" data_location="3"></div>
+            <div class="com_display_block" data_location="4"></div>
         </div>
         <div class="placementBoard">
-            <div class="com_display_block" data-location="5"></div>
-            <div class="com_display_block" data-location="6"></div>
-            <div class="com_display_block" data-location="7"></div>
+            <div class="com_display_block" data_location="5"></div>
+            <div class="com_display_block" data_location="6"></div>
+            <div class="com_display_block" data_location="7"></div>
         </div>
         <div class="placementBoard">
-            <div class="com_display_block" data-location="8"></div>
-            <div class="com_display_block" data-location="9"></div>
-            <div class="com_display_block" data-location="10"></div>
+            <div class="com_display_block" data_location="8"></div>
+            <div class="com_display_block" data_location="9"></div>
+            <div class="com_display_block" data_location="10"></div>
         </div>
         <div class="placementBoard">
             <div class="com_display_block" data-location="11"></div>
             <div class="com_display_block" data-location="12"></div>
-            <div class="com_display_block" data-location="13"></div>
-            <div class="com_display_block" data-location="14"></div>
+            <div class="com_display_block" data_location="13"></div>
+            <div class="com_display_block" data_location="14"></div>
         </div>
     </div>
+    <table>
+        <tr><th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+            <th>G</th>
+            <th>H</th>
+            <th>I</th>
+            <th>J</th>
+        </tr>
+        <tr>
+            <th>0</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>1</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>2</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>3</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>4</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>5</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>6</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>7</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>8</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>9</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    
     </div>
 
 </main>
-<footer><button class="start_button">Start</button></footer>
 <script src="main.js"></script>
 </body>
 </html>

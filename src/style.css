@@ -1,77 +1,121 @@
 *{
     margin:0;
     padding:0;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 1000;
+    font-size: 0.9rem;
 }
 
 header{
-    background-color: aqua;
+    background-color: rgb(0, 255, 13);
     height: 100%;
     width:100%;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: black solid 0.2rem;
 }
 
-main{
-    background-color: grey;
-    box-sizing: border-box;
-    
+header p:first-child{font-size: 3rem;}
+
+body {
+background-color: rgb(54, 0, 155);
+height:100%;
+
 }
+
+.start_button{
+    display: none;
+    width: 6rem;
+    margin:1rem auto;
+
+}
+
+#placementButton{
+    display: block;
+    width: 4rem;
+    margin:1rem auto;
+}
+
 
 .board_container_user, .board_container_comp{
     display: inline-block;
+    width:100%;
     }
 
 
 
 table{
-    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
     border-collapse: collapse;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    
+    
        }
 
+th{
+    width:1rem;
+    font-size: 1.2rem;
+    background-color: white;
+    }
+
 td {
-    background-color:blue; 
-    width:2rem; 
-    height: 2rem;
-    border: black solid 0.2rem;
+    background-color:rgb(0, 184, 9); 
+    width:1.6rem; 
+    height:1.6rem;
+    border: rgb(0, 0, 0) solid 0.2rem;
+    border-radius: 0.4rem;
+    
 }
 
 .ship_select_container{
-    background-color: darkmagenta; 
     width:100%;
-    height: 15rem;
+    text-align: center;
 }
 
 .placementBoard{
 
-    background-color: azure;
-    width:46%;
+    width:48%;
+    height: 1.5rem;
     display: inline-block;
-    border: black solid 2px;
-
+    
 }
 
 .display_block,.com_display_block{
-    background-color:blue; 
-    width:10%; 
-    height: 2rem;
+    background-color:rgb(0, 184, 9);  
+    width:0.4rem; 
+    height: 0.5rem;
     border: black solid 0.2rem;
+    border-radius: 0.3rem;
     display: inline-block;
-    margin-bottom: 2rem;
 
 }
 
 .coord_box{
-
     display: inline-block;
 }
 
 .placementBoard p {
     display: inline-block;
+    color: white;
 }
 
 input[type="text"] {
-width:2rem;
+background-color: black;
+color: rgb(255, 255, 255);
+width:1rem;
+height:1rem;
 display: inline-block;
+border: none;
+
 }
 
-.start_button{display: none;}
- 
-footer{background-color: green;}
+
+@media screen and (min-width: 768px) {
+    .board_container_user, .board_container_comp{
+        width:50%;
+        }
+  }

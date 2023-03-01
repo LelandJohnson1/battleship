@@ -24,6 +24,7 @@ const BOARD_CREATOR = () => {
 const SHIP_PLACEMENT = (callback) => {
 	let board = callback();
 	let shipAmounts = [1, 1, 2, 3, 3, 4];
+	let itrMatch = 1;
 
 	for (let k = 0; k < shipAmounts.length; k++) {
 		//for jest testing
@@ -83,8 +84,9 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
-					board[i + l][j].data_location = l + 1; //used to connect boats on board to boats on display board
+					board[i + l][j].data_location = itrMatch; //used to connect boats on board to boats on display board
 					board[i + l][j].shipThere = true;
+					itrMatch++;
 				}
 				break;
 			} else if (directionNum >= 5) {
@@ -131,8 +133,9 @@ const SHIP_PLACEMENT = (callback) => {
 					continue;
 				}
 				for (let l = 0; l < shipAmounts[k]; l++) {
-					board[i][j - l].data_location = l + 1; //used to connect boats on board to boats on display board
+					board[i][j - l].data_location = itrMatch; //used to connect boats on board to boats on display board
 					board[i][j - l].shipThere = true;
+					itrMatch++;
 				}
 				break;
 			}

@@ -5,7 +5,19 @@ const RESET = () => {
 	//reset user and computer object info (this auto... happens when placement and start button is hit)
 	//lock comp board
 	//reset coord box values and colors
+
+	document.querySelector("main header p:last-child").innerHTML =
+		"Place your ships then press start";
+
 	const COORD_BOXES = Array.from(document.querySelectorAll(".coord_box"));
+
+	const toText = Array.from(
+		document.querySelectorAll(".ship_select_container .placementBoard p")
+	);
+
+	toText.forEach(function (val) {
+		val.style.display = "inline-block";
+	});
 
 	const COM_DISPLAY_BLOCKS = Array.from(
 		document.querySelectorAll(".com_display_block")
@@ -16,16 +28,16 @@ const RESET = () => {
 	);
 
 	COORD_BOXES.forEach(function (val) {
-		val.style.display = "block";
+		val.style.display = "inline-block";
 		val.innerHTML = "";
 	});
 
 	COM_DISPLAY_BLOCKS.forEach(function (val) {
-		val.style["background-color"] = "blue";
+		val.setAttribute("style", "background-color:rgb(0, 184, 9)");
 	});
 
 	USER_DISPLAY_BLOCKS.forEach(function (val) {
-		val.style["background-color"] = "blue";
+		val.setAttribute("style", "background-color:rgb(0, 184, 9)");
 	});
 
 	//reset computer board dom and player board dom
@@ -37,13 +49,15 @@ const RESET = () => {
 	);
 
 	userBoard.forEach(function (val) {
-		val.style["background-color"] = "blue";
+		val.setAttribute("style", "background-color:rgb(0, 184, 9)");
 		val.innerHTML = "";
 	});
 	compBoard.forEach(function (val) {
-		val.style["background-color"] = "blue";
+		val.setAttribute("style", "background-color:rgb(0, 184, 9)");
 		val.innerHTML = "";
 	});
+
+	document.getElementById("placementButton").style.display = "block";
 };
 
 //converts values from the coordinate selector function to proper game board index values i.e. A becomes 0
@@ -63,14 +77,16 @@ const VALUE_CONVERTER = (value1, value2, value3) => {
 	};
 
 	//this ideally creates a new array of converted values
-	let mutatedArr = [value1, value2, value3].map(function (val) {
-		if (typeof val == "string" && val != "") {
+	let mutatedArr = [value1.value, value2.value, value3.value].map(function (
+		val
+	) {
+		if (isNaN(+val) && val != "") {
 			let allCaps = val.toUpperCase();
 			let { ltrMatch = allCaps } = Letters; //matches letter with above object
 			//-will return undefined if letter is not found
 			return Letters[ltrMatch];
-		} else if (typeof val == "number") {
-			return val;
+		} else if (typeof +val == "number") {
+			return +val;
 		} else {
 			// for any other string  value
 			return undefined;
@@ -90,7 +106,7 @@ const VALUE_CONVERTER = (value1, value2, value3) => {
 };
 
 //Actually places ships on board and properly colors them
-const PLACE_SHIPS = (ship, m, l) => {
+const PLACE_SHIPS = (ship, m, coordboxlocation) => {
 	const tblData = Array.from(
 		document.querySelectorAll(".board_container_user td")
 	);
@@ -103,14 +119,14 @@ const PLACE_SHIPS = (ship, m, l) => {
 	while (m < 120) {
 		//loop until correct td is found and fill it (ship is placed here) -m represents the td index
 		if (m == ship.verboseNum) {
-			tblData[m].style["background-color"] = "green";
+			tblData[m].style["background-color"] = "white";
 			break;
 		}
 		m++;
 	}
 
 	//create custom key that associates dom data-keys with placed boat on board (for color changes on display)
-	ship.data_location = l;
+	ship.data_location = coordboxlocation;
 	// place vertical
 	ship.shipThere = true;
 };
@@ -121,7 +137,8 @@ const USER_PLACEMENT_LOGIC = (
 	convertedValuesArr,
 	firstboxVal, //determines the direction of ship placement
 	iter,
-	coordboxesArr //determines the direction of ship placement
+	coordboxesArr, //determines the direction of ship placement
+	coordboxlocation
 ) => {
 	let invalid_Amount = false;
 	let j = 1; //breaks loop if index to and from number does not match the number of avali ships
@@ -149,27 +166,27 @@ const USER_PLACEMENT_LOGIC = (
 	//Place ships and SET BOARD TO PROPER FILLED COLORS
 	for (let k = convertedValuesArr[1]; k <= convertedValuesArr[2]; k++) {
 		//place vertical
-		if (coordboxesArr[firstboxVal].value == "string") {
+		if (isNaN(+coordboxesArr[firstboxVal].value)) {
 			let placementHolder = PLACE_SHIPS(
 				gameboardArr[k][convertedValuesArr[0]],
 				m,
-				l
+				coordboxlocation
 			);
 			if (placementHolder == true) {
 				return true;
 			}
-			l++;
+			coordboxlocation++;
 		} else {
 			//place horizontal
 			let placementHolder = PLACE_SHIPS(
 				gameboardArr[convertedValuesArr[0]][k],
 				m,
-				l
+				coordboxlocation
 			);
 			if (placementHolder == true) {
 				return true;
 			}
-			l++;
+			coordboxlocation++;
 		}
 	}
 };
@@ -191,6 +208,7 @@ const COORDINATE_SELECTOR = () => {
 
 	const ITER_ARRAY = [1, 1, 2, 3, 3, 4]; //Alotted placement slots
 	let i = 0;
+	let itrMatch = 1;
 	while (i < ITER_ARRAY.length) {
 		let convertedValues = VALUE_CONVERTER(
 			COORD_BOXES[firstVal],
@@ -210,8 +228,10 @@ const COORDINATE_SELECTOR = () => {
 			convertedValues,
 			firstVal,
 			ITER_ARRAY[i],
-			COORD_BOXES
+			COORD_BOXES,
+			itrMatch
 		);
+		itrMatch += ITER_ARRAY[i];
 
 		//if any values go beyond alotted slots
 		if (logicStorage == true) {
@@ -231,8 +251,22 @@ const COORDINATE_SELECTOR = () => {
 
 //makes computer board clickable
 const START_FUNCTION = () => {
+	const toText = Array.from(
+		document.querySelectorAll(".ship_select_container .placementBoard p")
+	);
+
+	toText.forEach(function (val) {
+		val.style.display = "none";
+	});
+
+	document.querySelector("main header p:last-child").innerHTML =
+		"It's the player's turn";
 	// get rid of inputs and place button for user display board
 	const COORD_BOXES = Array.from(document.querySelectorAll(".coord_box"));
+
+	document.querySelector(".start_button").style.display = "none";
+
+	document.getElementById("placementButton").style.display = "none";
 
 	COORD_BOXES.forEach(function (val) {
 		val.style.display = "none";

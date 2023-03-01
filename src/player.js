@@ -9,22 +9,22 @@ function playerStats(boats) {
 	this.amount = boats;
 }
 
-const user = new playerStats(10);
-const computer = new playerStats(10);
+const user = new playerStats(14);
+const computer = new playerStats(14);
 
 //returns the users gameboard
-const userBoardStorage = document
+let userBoardStorage = undefined;
+document
 	.getElementById("placementButton")
 	.addEventListener("click", function () {
-		COORDINATE_SELECTOR();
+		userBoardStorage = COORDINATE_SELECTOR();
 	});
 
 //start button returns the computer board (calls the SHIP_PLACEMENT(BOARD_CREATOR) func)
-let computerBoardStorage = document
-	.querySelector("footer button")
-	.addEventListener("click", function () {
-		START_FUNCTION();
-	});
+let computerBoardStorage = undefined;
+document.querySelector(".start_button").addEventListener("click", function () {
+	computerBoardStorage = START_FUNCTION();
+});
 
 const COMP_SUCCESSFUL_HIT = (i, j, board, td) => {
 	if (board[i][j].isFilled == true) {
@@ -36,7 +36,7 @@ const COMP_SUCCESSFUL_HIT = (i, j, board, td) => {
 		//will run another iteration of loop
 	} else {
 		board[i][j].isFilled = true; //if nothing is there
-		td.innerHTML = "M";
+		td.innerHTML = "*";
 		return true;
 	}
 };
@@ -48,7 +48,7 @@ const COMPUTERCHOICE = () => {
 	let j = Math.floor(Math.random() * 10);
 	let directionNum = Math.floor(Math.random() * 10);
 	const tblData = Array.from(
-		document.querySelectorAll(".board_container_comp td")
+		document.querySelectorAll(".board_container_user td")
 	);
 
 	let td = null;
@@ -68,43 +68,52 @@ const COMPUTERCHOICE = () => {
 		board[i][j].isFilled = true;
 
 		while (true) {
-			//sets td to hit color if ship has been destroyed
-			td = null;
-			tblData.forEach(function (val, index) {
-				if (index == board[i][j].verboseNum) {
-					td = val;
-				}
-			});
-
-			td.style["background-color"] = "red"; // change the boat to red
+			user.amount -= 1;
 
 			if (user.amount == 0) {
 				//computer wins!!!
 				alert("The computer Wins!");
 				//board locks again
 				computerBoardStorage = undefined;
+				user.amount = 14;
+				computer.amount = 14;
 				RESET();
 				break;
 			}
-			user.amount -= 1;
+
+			//sets td to hit color if ship has been destroyed
+			td = null;
+			let index_trkr = null;
+			tblData.forEach(function (val, index) {
+				if (index == board[i][j].verboseNum) {
+					td = val;
+					index_trkr = index;
+				}
+			});
+
+			td.style["background-color"] = "red"; // change the boat to red
 
 			//changes corresponding boat on the display board to red
 			//loops over display board boats
 			const USER_DISPLAY_BLOCKS = Array.from(
 				document.querySelectorAll(".display_block")
 			);
-			for (let i = 0; i < USER_DISPLAY_BLOCKS.length; i++) {
-				if (USER_DISPLAY_BLOCKS[i].data_location == board[i][j].data_location) {
-					USER_DISPLAY_BLOCKS[i].style["background-color"] = "red";
+
+			USER_DISPLAY_BLOCKS.forEach(function (val, index) {
+				if (index + 1 == board[i][j].data_location) {
+					USER_DISPLAY_BLOCKS[index].style["background-color"] = "red";
 				}
-			}
+			});
+
 			//see if there are more ships in area - if so give it another turn
 			if (directionNum < 5) {
 				//up
 				i -= 1;
+
 				if (i != -1) {
 					//stops out of index issue
-					let condition_holder = COMP_SUCCESSFUL_HIT(i, j, board, td);
+					td = tblData[index_trkr - 10];
+					let condition_holder = COMP_SUCCESSFUL_HIT(i, j, board, td); //TD IS THE ISSUE
 
 					if (condition_holder == true) {
 						break;
@@ -117,7 +126,9 @@ const COMPUTERCHOICE = () => {
 			} else if (directionNum >= 5) {
 				//right
 				j += 1;
+
 				if (j != 10) {
+					td = tblData[index_trkr + 1];
 					let condition_holder = COMP_SUCCESSFUL_HIT(i, j, board, td);
 					if (condition_holder == true) {
 						break;
@@ -131,7 +142,7 @@ const COMPUTERCHOICE = () => {
 	} else if (board[i][j].shipThere == false && board[i][j].isFilled == false) {
 		//Nothing is in area
 		board[i][j].isFilled = true;
-		td.innerHTML = "M";
+		td.innerHTML = "*";
 		//next player turn
 	}
 };
@@ -141,7 +152,6 @@ const playerChoice = (val, index) => {
 	//restricts user from clicking computer board start button has not been clicked
 	if (computerBoard != undefined) {
 		let selectedTblData = undefined;
-
 		//assoc. td (val) with it's computerboard obj match
 		for (let i = 0; i < computerBoard.length; i++) {
 			for (let j = 0; j < computerBoard[i].length; j++) {
@@ -151,17 +161,8 @@ const playerChoice = (val, index) => {
 			}
 		}
 
-		//user wins!!!
-		if (computer.amount == 0) {
-			alert("User wins!");
-			//board locks again
-			computerBoardStorage = undefined;
-			RESET();
-			return;
-		}
-
 		//nothing is in block
-		else if (
+		if (
 			selectedTblData.shipThere == false &&
 			selectedTblData.isFilled == false
 		) {
@@ -184,12 +185,23 @@ const playerChoice = (val, index) => {
 			);
 
 			for (let i = 0; i < COM_DISPLAY_BLOCKS.length; i++) {
-				//changes corresponding boat on the display board to red
-				if (
-					COM_DISPLAY_BLOCKS[i].data_location == selectedTblData.data_location
-				) {
+				//changes corresponding boat on the display board
+
+				if (i + 1 == selectedTblData.data_location) {
+					//its given a data location key
 					COM_DISPLAY_BLOCKS[i].style["background-color"] = "red";
 				}
+			}
+
+			//user wins!!!
+			if (computer.amount == 0) {
+				alert("User wins!");
+				//board locks again
+				computerBoardStorage = undefined;
+				user.amount = 14;
+				computer.amount = 14;
+				RESET();
+				return;
 			}
 		}
 
@@ -204,8 +216,10 @@ const playerChoice = (val, index) => {
 
 //calls playerChoice func with selected td
 const GAMEFLOW_TRIGGER = Array.from(
-	document.querySelectorAll(".board_container:nth-of-type(2) tr td")
-).forEach(function (val, index) {
+	document.querySelectorAll(".board_container_comp td")
+);
+
+GAMEFLOW_TRIGGER.forEach(function (val, index) {
 	val.addEventListener("click", function () {
 		playerChoice(val, index);
 	});
